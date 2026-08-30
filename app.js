@@ -3,6 +3,9 @@ const app= express();
 const errorHandler= require('./middleware/errorHandler');
 const ExpressError= require('./utils/ExpressError');
 const cors= require('cors');
+const categoryRoutes= require('./routes/categoryRoutes');
+const productRoutes= require('./routes/productRoutes');
+
 
 
 // Middlewares
@@ -17,6 +20,10 @@ app.get('/', (req,res)=>{
         message:"Welcome to DREX Store"
     })
 });
+
+app.use("/api/categories", categoryRoutes);
+app.use("/api/products", productRoutes);
+
 
 //Page Not Found Route 
 app.all("/*splat", (req, res, next) => {
