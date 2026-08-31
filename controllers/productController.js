@@ -25,8 +25,12 @@ module.exports.createProduct = async (req, res) => {
 
 // Get All Products
 module.exports.getAllProducts = async (req, res) => {
-  const products = await Product.find().populate("category");
-
+  const { category } = req.query;
+  const filter = {};
+  if (category) {
+    filter.category = category;
+  }
+  const products = await Product.find(filter).populate("category");
   res.status(200).json({
     success: true,
     count: products.length,
