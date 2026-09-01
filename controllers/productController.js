@@ -25,15 +25,81 @@ module.exports.createProduct = async (req, res) => {
 
 // Get All Products
 module.exports.getAllProducts = async (req, res) => {
-  const { category } = req.query;
+  const {category,subCategory,minPrice,maxPrice,search,sort,page = 1,limit = 10,} = req.query;
+
   const filter = {};
+
+  // Category filter
   if (category) {
     filter.category = category;
   }
-  const products = await Product.find(filter).populate("category");
+
+  // Subcategory filter
+  if (subCategory) {
+    filter.subCategory = subCategory;
+  }
+
+  // Price filter
+  if (minPrice || maxPrice) {
+    filter.price = {};
+
+    if (minPrice) {
+      filter.price.$gte = Number(minPrice);
+    }
+
+    if (maxPrice) {
+      filter.price.$lte = Number(maxPrice);
+    }
+  }
+
+  // Search filter
+  if (search) {
+    filter.$or = [
+      { name: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+      { brand: { $regex: search, $options: "i" } },
+      { subCategory: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  let sortOption = {};
+
+  if (sort === "price_asc") {
+    sortOption.price = 1;
+  } else if (sort === "price_desc") {
+    sortOption.price = -1;
+  } else if (sort === "newest") {
+    sortOption.createdAt = -1;
+  } else if (sort === "oldest") {
+    sortOption.createdAt = 1;
+  }
+  const pageNumber = Math.max(Number(page), 1);
+  const limitNumber = Math.max(Number(limit), 1);
+
+  const skip = (pageNumber - 1) * limitNumber;
+
+  const products = await Product.find(filter)
+    .populate("category")
+    .sort(sortOption)
+    .skip(skip)
+    .limit(limitNumber);
+
+  // Total matching products
+  const totalProducts = await Product.countDocuments(filter);
+
+  const totalPages = Math.ceil(totalProducts / limitNumber);
+
   res.status(200).json({
     success: true,
+
     count: products.length,
+
+    totalProducts,
+
+    currentPage: pageNumber,
+
+    totalPages,
+
     products,
   });
 };
