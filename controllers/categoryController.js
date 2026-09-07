@@ -1,6 +1,6 @@
 const Category = require("../models/categorySchema");
 const ExpressError = require("../utils/ExpressError");
-
+const Product= require('../models/productSchema');
 // Create Category
 module.exports.createCategory = async (req, res) => {
   const { name, description } = req.body;
@@ -69,14 +69,28 @@ module.exports.updateCategory = async (req, res) => {
 module.exports.deleteCategory = async (req, res) => {
   const { id } = req.params;
 
-  const category = await Category.findByIdAndDelete(id);
+  // Validate category ID
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new ExpressError(400, "Invalid category ID");
+  }
+
+  // Check if category exists
+  const category = await Category.findById(id);
 
   if (!category) {
     throw new ExpressError(404, "Category not found");
   }
 
+  // Delete all products belonging to this category
+  await Product.deleteMany({
+    category: id
+  });
+
+  // Delete the category
+  await Category.findByIdAndDelete(id);
+
   res.status(200).json({
     success: true,
-    message: "Category deleted successfully",
+    message: "Category and all related products deleted successfully"
   });
 };
