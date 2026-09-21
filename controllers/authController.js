@@ -1,7 +1,7 @@
 const User = require('../models/userSchema');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const ExpressError = require('../utils/ExpressError');
+const generateToken = require('../utils/generateToken')
 
 module.exports.register= async (req,res)=>{
     const {name,email,password}= req.body;
@@ -52,16 +52,7 @@ module.exports.login = async (req,res)=>{
         throw new ExpressError(401,"Invalid email and Password");
     }
 
-    const token = jwt.sign(
-        {
-            userId: user._id,
-            role : user.role,
-        },
-        process.env.JWT_SECRET,
-        {
-            expiresIn:"7d",
-        }
-    );
+    const token = generateToken(user);
 
     res.status(200).json({
         success:true,
@@ -73,5 +64,12 @@ module.exports.login = async (req,res)=>{
             email:user.email,
             role:user.role,
         },
+    });
+};
+
+module.exports.getCurrentUser = async(req,res)=>{
+    res.status(200).json({
+        success:true,
+        user:req.user,
     });
 };
