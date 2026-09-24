@@ -13,7 +13,7 @@ module.exports.register= async (req,res)=>{
     if (existingUser){
         throw new ExpressError(409,"User already Exists");
     };
-    const hashedpassword= await bycrypt.hash(password,10);
+    const hashedpassword = await bcrypt.hash(password,10);
 
     const user= await User.create({
         name,
@@ -67,9 +67,17 @@ module.exports.login = async (req,res)=>{
     });
 };
 
+module.exports.logout = async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Logout successful",
+  });
+};
+
 module.exports.getCurrentUser = async(req,res)=>{
     res.status(200).json({
         success:true,
+        message:"Example Route",
         user:req.user,
     });
 };

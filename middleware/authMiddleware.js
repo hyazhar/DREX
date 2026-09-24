@@ -9,7 +9,7 @@ const authMiddleware = async(req,res,next)=>{
         throw new ExpressError(401,"Authentication required");
     }
 
-    if(!authHeader.startsWith("Bearer")){
+    if(!authHeader.startsWith("Bearer ")){
         throw new ExpressError(401,"Invalid authentication format");
     }
     const token = authHeader.split(" ")[1];

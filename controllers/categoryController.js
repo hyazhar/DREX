@@ -1,6 +1,7 @@
 const Category = require("../models/categorySchema");
 const ExpressError = require("../utils/ExpressError");
 const Product= require('../models/productSchema');
+
 // Create Category
 module.exports.createCategory = async (req, res) => {
   const { name, description } = req.body;
