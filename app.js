@@ -6,7 +6,7 @@ const cors= require('cors');
 const categoryRoutes= require('./routes/categoryRoutes');
 const productRoutes= require('./routes/productRoutes');
 const authRoutes= require('./routes/authRoutes');
-
+const userRoutes= require('./routes/userRoutes');
 
 // Middlewares
 app.use(cors());
@@ -24,6 +24,7 @@ app.get('/', (req,res)=>{
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
+app.use('/api/users',userRoutes);
 
 //Page Not Found Route 
 app.all("/*splat", (req, res, next) => {

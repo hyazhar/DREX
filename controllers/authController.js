@@ -74,6 +74,7 @@ module.exports.logout = async (req, res) => {
   });
 };
 
+// Example Controller
 module.exports.getCurrentUser = async(req,res)=>{
     res.status(200).json({
         success:true,
