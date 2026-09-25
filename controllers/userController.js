@@ -72,7 +72,7 @@ module.exports.changePassword = async (req,res)=>{
     }
     const hashedPassword= await bcrypt.hash(newPassword,10);
     user.password=hashedPassword;
-    await user.save;
+    await user.save();
     res.status(200).json({
         success:true,
         message:"Password changes successfully",
