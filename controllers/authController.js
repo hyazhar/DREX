@@ -73,12 +73,3 @@ module.exports.logout = async (req, res) => {
     message: "Logout successful",
   });
 };
-
-// Example Controller
-module.exports.getCurrentUser = async(req,res)=>{
-    res.status(200).json({
-        success:true,
-        message:"Example Route",
-        user:req.user,
-    });
-};
