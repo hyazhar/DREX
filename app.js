@@ -8,6 +8,7 @@ const productRoutes= require('./routes/productRoutes');
 const authRoutes= require('./routes/authRoutes');
 const userRoutes= require('./routes/userRoutes');
 const cartRoutes= require('./routes/cartRoutes');
+const wishlistRoutes= require('./routes/wishlistRoutes');
 
 // Middlewares
 app.use(cors());
@@ -27,7 +28,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 app.use('/api/users',userRoutes);
 app.use('/api/cart',cartRoutes)
-
+app.use('/api/wishlist', wishlistRoutes);
 //Page Not Found Route 
 app.all("/*splat", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found"));
