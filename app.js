@@ -29,6 +29,7 @@ app.use("/api/auth", authRoutes);
 app.use('/api/users',userRoutes);
 app.use('/api/cart',cartRoutes)
 app.use('/api/wishlist', wishlistRoutes);
+
 //Page Not Found Route 
 app.all("/*splat", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found"));
