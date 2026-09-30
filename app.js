@@ -10,7 +10,8 @@ const userRoutes= require('./routes/userRoutes');
 const cartRoutes= require('./routes/cartRoutes');
 const wishlistRoutes= require('./routes/wishlistRoutes');
 const addressRoutes= require('./routes/addressRoutes');
-
+const orderRoutes= require('./routes/orderRoutes');
+const adminOrderRoutes= require('./routes/adminOrderRoutes');
 // Middlewares
 app.use(cors());
 app.use(express.json());
@@ -31,6 +32,8 @@ app.use('/api/users',userRoutes);
 app.use('/api/cart',cartRoutes)
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/addresses',addressRoutes);
+app.use('/api/orders',orderRoutes);
+app.use('/api/admin/orders',adminOrderRoutes);
 
 //Page Not Found Route 
 app.all("/*splat", (req, res, next) => {
