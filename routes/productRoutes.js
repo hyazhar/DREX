@@ -7,12 +7,12 @@ const adminMiddleware = require("../middleware/adminMiddleware");
 
 router
   .route("/")
-  .get(authMiddleware,wrapAsync(productController.getAllProducts))
+  .get(wrapAsync(productController.getAllProducts))
   .post(authMiddleware,adminMiddleware,wrapAsync(productController.createProduct));
 
 router
   .route("/:id")
-  .get(authMiddleware,wrapAsync(productController.getProductById))
+  .get(wrapAsync(productController.getProductById))
   .put(authMiddleware,adminMiddleware,wrapAsync(productController.updateProduct))
   .delete(authMiddleware,wrapAsync(productController.deleteProduct));
 

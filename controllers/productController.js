@@ -25,7 +25,7 @@ module.exports.createProduct = async (req, res) => {
 
 // Get All Products
 module.exports.getAllProducts = async (req, res) => {
-  const {category,subCategory,minPrice,maxPrice,search,sort,page = 1,limit = 10,} = req.query;
+  const {category,subCategory,minPrice,maxPrice,search,sort,page = 1,limit = 12,} = req.query;
 
   const filter = {};
 
