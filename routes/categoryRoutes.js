@@ -8,12 +8,12 @@ const adminMiddleware = require("../middleware/adminMiddleware");
 
 router
   .route("/")
-  .get(authMiddleware,wrapAsync(categoryController.getAllCategories))
+  .get(wrapAsync(categoryController.getAllCategories))
   .post(authMiddleware,adminMiddleware,wrapAsync(categoryController.createCategory));
 
 router
   .route("/:id")
-  .get(authMiddleware,wrapAsync(categoryController.getCategoryById))
+  .get(wrapAsync(categoryController.getCategoryById))
   .put(authMiddleware,adminMiddleware,wrapAsync(categoryController.updateCategory))
   .delete(authMiddleware,adminMiddleware,wrapAsync(categoryController.deleteCategory));
 
